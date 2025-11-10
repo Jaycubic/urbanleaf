@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Leaf, Users, TrendingUp } from 'lucide-react'
+import { Users, TrendingUp } from 'lucide-react'
 
 /**
  * Hero Section Component
@@ -15,18 +15,30 @@ import { Leaf, Users, TrendingUp } from 'lucide-react'
  * - Responsive layout (stacked on mobile)
  * - WCAG AA contrast compliance
  */
+interface VantaInstance {
+  destroy: () => void
+}
+
+interface VantaWindow extends Window {
+  VANTA?: {
+    BIRDS: (config: Record<string, unknown>) => VantaInstance
+  }
+  THREE?: unknown
+}
+
 export function Hero() {
   const vantaRef = useRef<HTMLDivElement>(null)
-  const vantaInstanceRef = useRef<any>(null)
+  const vantaInstanceRef = useRef<VantaInstance | null>(null)
 
   // Initialize Vanta Birds animation
   useEffect(() => {
     // Check if Vanta is available (loaded from CDN)
-    if (typeof window !== 'undefined' && (window as any).VANTA) {
-      const VANTA = (window as any).VANTA
+    const vantaWindow = window as unknown as VantaWindow
+    if (typeof window !== 'undefined' && vantaWindow.VANTA) {
+      const VANTA = vantaWindow.VANTA
 
       // Only initialize if Three.js is also available
-      if ((window as any).THREE) {
+      if (vantaWindow.THREE) {
         // Destroy previous instance if it exists
         if (vantaInstanceRef.current) {
           vantaInstanceRef.current.destroy()

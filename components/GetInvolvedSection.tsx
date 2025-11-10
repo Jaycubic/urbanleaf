@@ -53,7 +53,7 @@ export function GetInvolvedSection() {
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Join our community of designers, planners, and environmental
-            advocates. Together, we're building greener cities.
+            advocates. Together, we&apos;re building greener cities.
           </p>
         </div>
 
